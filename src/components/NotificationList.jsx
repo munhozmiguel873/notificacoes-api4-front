@@ -1,0 +1,66 @@
+function NotificationList({ notificacoes }) {
+  if (notificacoes.length === 0) {
+    return <p className="text-gray-500 text-sm">Nenhuma notificação por aqui.</p>;
+  }
+
+  return (
+    <div>
+      {notificacoes.map((n) => (
+        <NotificationCard key={n.id} {...n} />
+      ))}
+    </div>
+  );
+}
+
+function FilterBar({ filtroAtual, onFiltroChange }) {
+  return (
+    <div className="flex gap-2 mb-4">
+      <FilterChip label="Todas" ativo={filtroAtual === "todas"} onClick={() => onFiltroChange("todas")} />
+      <FilterChip label="Push" ativo={filtroAtual === "push"} onClick={() => onFiltroChange("push")} />
+      <FilterChip label="E-mail" ativo={filtroAtual === "email"} onClick={() => onFiltroChange("email")} />
+    </div>
+  );
+}
+
+function NovaNotificacaoForm({ onAdicionar }) {
+  const [titulo, setTitulo] = useState("");
+  const [texto, setTexto] = useState("");
+  const [canal, setCanal] = useState("PUSH");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!titulo.trim()) return;
+
+    onAdicionar({
+      id: Date.now(),
+      canal,
+      hora: new Date().toLocaleTimeString().slice(0, 5),
+      titulo,
+      texto,
+      lida: false,
+    });
+
+    setTitulo("");
+    setTexto("");
+  }
+  
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2 mb-6">
+      <input
+        value={titulo}
+        onChange={(e) => setTitulo(e.target.value)}
+        placeholder="Título da notificação"
+        className="border border-gray-200 rounded-lg px-3 py-2"
+      />
+      <textarea
+        value={texto}
+        onChange={(e) => setTexto(e.target.value)}
+        placeholder="Texto"
+        className="border border-gray-200 rounded-lg px-3 py-2"
+      />
+      <Button variant="destaque">Adicionar notificação</Button>
+    </form>
+  );
+}
+
+export default NotificationList;

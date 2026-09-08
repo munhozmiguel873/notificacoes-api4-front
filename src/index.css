@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --color-fundo-principal: #383248;
+  --color-fundo-card: #A2AFBC;
   --color-marca: #1B768A;
-  --color-destaque: #383248;
+  --color-destaque: #FFE1B1;
 }
