@@ -1,9 +1,8 @@
 import { useState } from "react";
-import FilterChip from "./components/FilterChip";
-import NotificationCard from "./components/NotificationCard";
-import Button from "./components/Button";
-
-const notificacoesExemplo = [
+import FilterBar from "./components/FilterBar";
+import NotificationList from "./components/NotificationList";
+import NovaNotificacaoForm from "./components/NovaNotificacaoForm";
+const notificacoesIniciais = [
   {
     id: 1,
     canal: "PUSH",
@@ -21,48 +20,24 @@ const notificacoesExemplo = [
     lida: true,
   },
 ];
-
 function App() {
   const [filtro, setFiltro] = useState("todas");
-
-  // Filtra as notificações com base no estado atual
-  const notificacoesFiltradas = notificacoesExemplo.filter((n) => {
+  const [notificacoes, setNotificacoes] = useState(notificacoesIniciais);
+  const notificacoesVisiveis = notificacoes.filter((n) => {
     if (filtro === "todas") return true;
-    return n.canal.toLowerCase() === filtro;
+    if (filtro === "push") return n.canal === "PUSH";
+    if (filtro === "email") return n.canal === "EMAIL";
   });
-
+  function adicionarNotificacao(nova) {
+    setNotificacoes((atual) => [nova, ...atual]);
+  }
   return (
-    <div className="max-w-2xl mx-auto p-4 bg-fundo-principal">
-      <h1 className="text-2xl font-bold mb-4">Central de Notificações</h1>
-      
-      <div className="flex gap-2 mb-4">
-        <FilterChip
-          label="Todas"
-          ativo={filtro === "todas"}
-          onClick={() => setFiltro("todas")}
-        />
-        <FilterChip
-          label="Push"
-          ativo={filtro === "push"}
-          onClick={() => setFiltro("push")}
-        />
-        <FilterChip
-          label="E-mail"
-          ativo={filtro === "email"}
-          onClick={() => setFiltro("email")}
-        />
-      </div>
+    <div className="max-w-2xl mx-auto p-4 bg-fundo-principal"> <h1 className="text-2xl font-bold mb-4">Central de Notificações</h1>
+      <NovaNotificacaoForm onAdicionar={adicionarNotificacao} />
 
-      {/* Renderiza apenas a lista filtrada */}
-      <div className="flex flex-col gap-2 mb-4">
-        {notificacoesFiltradas.map((n) => (
-          <NotificationCard key={n.id} {...n} />
-        ))}
-      </div>
-
-      <Button variant="destaque">Enviar notificação de teste</Button>
+      <FilterBar filtroAtual={filtro} onFiltroChange={setFiltro} />
+      <NotificationList notificacoes={notificacoesVisiveis} />
     </div>
   );
 }
-
 export default App;
