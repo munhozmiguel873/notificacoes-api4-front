@@ -3,6 +3,7 @@ function Button({ children, variant = "primario", onClick }) {
         primario: "bg-marca text-white",
         destaque: "bg-destaque text-white",
     };
+
     return (
         <button
             onClick={onClick}
@@ -12,4 +13,5 @@ function Button({ children, variant = "primario", onClick }) {
         </button>
     );
 }
+
 export default Button;

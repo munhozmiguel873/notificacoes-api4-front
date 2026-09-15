@@ -1,8 +1,16 @@
 import { useState } from "react";
-import FilterChip from "./components/FilterChip";
-import NotificationCard from "./components/NotificationCard";
+import FilterBar from "./components/FilterBar";
+import NotificationCard from "./components/NotificationList";
 import Button from "./components/Button";
-const notificacoesExemplo = [
+import Saudacao from "./components/Saudacao";
+
+const [notificacoes, setNotificacoes] = useState([]);
+
+function adicionarNotificacao(nova) {
+  setNotificacoes((atual) => [nova, ...atual]);
+}
+
+const notificacoesIniciais = [
   {
     id: 1,
     canal: "PUSH",
@@ -20,39 +28,40 @@ const notificacoesExemplo = [
     lida: true,
   },
 ];
+
 function App() {
   const [filtro, setFiltro] = useState("todas");
+  const [notificacoes, setNotificacoes] = useState(notificacoesIniciais);
+
+  const notificacoesFiltradas = notificacoes.filter((n) => {
+    if (filtro === "todas") return true;
+    if (filtro === "push") return n.canal === "PUSH";
+    if (filtro === "email") return n.canal === "EMAIL";
+  });
+
+  function adicionarNotificacao(nova) {
+    setNotificacoes((atual) => [nova, ...atual]);
+  }
+
   return (
     <div className="max-w-2xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Central de Notificações</h1>
-      <div className="flex gap-2 mb-4">
-        <FilterChip
-          label="Todas"
-          ativo={filtro === "todas"}
-          onClick={() => setFiltro("todas")}
-        />
-        <FilterChip
-          label="Push"
-          ativo={filtro === "push"}
-          onClick={() => setFiltro("push")}
 
-        />
-        <FilterChip
-          label="E-mail"
-          ativo={filtro === "email"}
-          onClick={() => setFiltro("email")}
-        />
+      <div className="flex gap-2 mb-4">
+        <FilterBar filtroAtual={filtro} onFiltroChange={setFiltro} />
       </div>
-      {notificacoesExemplo.map((n) => (
-        <NotificationCard key={n.id} {...n} />
-      ))}
+
+      <NotificationList notificacoes={} />
+
+      <NovaNotificacaoForm onAdicionar={adicionarNotificacao} />
+
       <Button variant="destaque">Enviar notificação de teste</Button>
+
+      <div>
+        <Saudacao />
+      </div>
     </div>
   );
-}
-
-function adicionarNotificacao(nova) {
-  setNotificacoes((atual) => [nova, ...atual]);
-}
+};
 
 export default App;

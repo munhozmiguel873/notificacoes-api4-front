@@ -12,16 +12,6 @@ function NotificationList({ notificacoes }) {
   );
 }
 
-function FilterBar({ filtroAtual, onFiltroChange }) {
-  return (
-    <div className="flex gap-2 mb-4">
-      <FilterChip label="Todas" ativo={filtroAtual === "todas"} onClick={() => onFiltroChange("todas")} />
-      <FilterChip label="Push" ativo={filtroAtual === "push"} onClick={() => onFiltroChange("push")} />
-      <FilterChip label="E-mail" ativo={filtroAtual === "email"} onClick={() => onFiltroChange("email")} />
-    </div>
-  );
-}
-
 function NovaNotificacaoForm({ onAdicionar }) {
   const [titulo, setTitulo] = useState("");
   const [texto, setTexto] = useState("");
@@ -43,7 +33,7 @@ function NovaNotificacaoForm({ onAdicionar }) {
     setTitulo("");
     setTexto("");
   }
-  
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 mb-6">
       <input

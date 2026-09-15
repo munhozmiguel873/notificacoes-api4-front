@@ -13,4 +13,5 @@ function NotificationCard({ canal, hora, titulo, texto, lida }) {
         </div>
     );
 }
+
 export default NotificationCard;
