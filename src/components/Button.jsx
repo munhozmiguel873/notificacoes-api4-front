@@ -7,7 +7,8 @@ function Button({ children, variant = "primario", onClick }) {
     return (
         <button
             onClick={onClick}
-            className={`px-4 py-2 rounded-lg font-semibold ${estilos[variant]}`}
+            className={`px-4 py-2 rounded-lg font-semibold
+            ${estilos[variant]}`}
         >
             {children}
         </button>
