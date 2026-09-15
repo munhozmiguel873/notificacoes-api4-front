@@ -29,13 +29,13 @@ function NovaNotificacaoForm({ onAdicionar }) {
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
                 placeholder="Título da notificação"
-                className="border border-gray-200 rounded-lg px-3 py-2"
+                className="border border-gray-200 rounded-lg px-3 py-2 text-white"
             />
             <textarea
                 value={texto}
                 onChange={(e) => setTexto(e.target.value)}
                 placeholder="Texto"
-                className="border border-gray-200 rounded-lg px-3 py-2"
+                className="border border-gray-200 rounded-lg px-3 py-2 text-white"
             />
             <Button variant="destaque">Adicionar notificação</Button>
         </form>
