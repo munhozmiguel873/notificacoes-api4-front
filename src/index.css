@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-marca: #1B768A;    /* Cor dos tipos de notificação. */
+  --color-marca: #1B768A;    /* Cor do filtro selecionado. */
   --color-destaque: #1B768A; /* Cor do botão de adicionar uma nova notificação. */
   --color-fundo-principal: #383248; /* Cor do fundo do app. */
-  --color-titulo: #FFE1B1; /* Cor do titulo */
+  --color-titulo: #FFE1B1; /* Cor do titulo. */
+
+  /*--- CARD ---*/
+  --color-fundoCard: #A2AFBC;
+  --color-bordaCard: #808A95;
+
+
 }
