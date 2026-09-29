@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useEffect } from "react";
+import { API_URL } from "./config";
+
 import FilterBar from "./components/FilterBar";
 import NotificationList from "./components/NotificationList";
 import NovaNotificacaoForm from "./components/NovaNotificacaoForm";
@@ -24,7 +27,9 @@ const notificacoesIniciais = [
 
 function App() {
   const [filtro, setFiltro] = useState("todas");
-  const [notificacoes, setNotificacoes] = useState(notificacoesIniciais);
+  const [notificacoes, setNotificacoes] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
 
   const notificacoesVisiveis = notificacoes.filter((n) => {
     if (filtro === "todas") return true;
@@ -36,6 +41,36 @@ function App() {
     setNotificacoes((atual) => [nova, ...atual]);
   }
 
+  useEffect(() => {
+    async function buscar() {
+      try {
+        const resposta = await fetch(`${API_URL}/notificacoes`);
+        if (!resposta.ok) throw new Error("Erro ao buscar notificações");
+        const dados = await resposta.json();
+        setNotificacoes(dados);
+      } catch (e) {
+        setErro(e.message);
+      } finally {
+        setCarregando(false);
+      }
+    }
+    buscar();
+  }, []);
+
+  {
+    carregando && <p className="text-gray-500">Carregando notificações...</p>;
+  }
+  {
+    erro && (
+      <p className="text-red-600">Não foi possível carregar. Tente novamente.</p>
+    );
+  }
+  {
+    !carregando && !erro && (
+      <NotificationList notificacoes={notificacoesVisiveis} />
+    );
+  }
+  
   return (
     <div className="max-w-2xl mx-auto p-4 bg-fundo-principal">
       <h1 className="text-2xl font-bold mb-4 text-titulo">Central de Notificações</h1>
